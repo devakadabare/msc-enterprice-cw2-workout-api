@@ -10,7 +10,9 @@ using Microsoft.Extensions.Logging;
 
 namespace WorkoutApi.Controllers
 {
-    public class UserWorkoutEnrollmentController: ControllerBase
+    [ApiController]
+    [Route("[controller]")]
+    public class UserWorkoutEnrollmentController : ControllerBase
     {
         private readonly ILogger<UserWorkoutEnrollmentController> _logger;
         private readonly UserWorkoutEnrollmentService _userWorkoutEnrollmentService;
@@ -23,14 +25,14 @@ namespace WorkoutApi.Controllers
             _predictionService = predictionService;
         }
 
-        [HttpGet("api/UserWorkoutEnrollment/user/{userId}")]
+        [HttpGet("user/{userId}")]
         public async Task<List<UserWorkoutEnrollment>> Get(int userId)
         {
             //get all user workout enrollments from the database
             return await _userWorkoutEnrollmentService.GetUserWorkoutEnrollmentsByUserIdAsync(userId);
         }
 
-        [HttpGet("api/UserWorkoutEnrollment/single/{id}")]
+        [HttpGet("single/{id}")]
         public async Task<UserWorkoutEnrollmentDataDTO> GetEnrollmentById(int id)
         {
             //get all user workout enrollments from the database
@@ -38,7 +40,7 @@ namespace WorkoutApi.Controllers
         }
 
         //add a new user workout enrollment
-        [HttpPost("api/UserWorkoutEnrollment/single")]
+        [HttpPost("single")]
         public async Task<ActionResult<UserWorkoutEnrollment>> Post(UserWorkoutEnrollmentCreationDTO userWorkoutEnrollment)
         {
             //create a new user workout enrollment
@@ -47,28 +49,28 @@ namespace WorkoutApi.Controllers
 
             //create a new prediction
             var predictionResult = await _predictionService.CreatePredictionAsync(userId);
-            return result; 
-            
+            return result;
+
         }
 
         //update a user workout enrollment
-        [HttpPut("api/UserWorkoutEnrollment/single")]
+        [HttpPut("single")]
         public async Task<ActionResult<UserWorkoutEnrollment>> Put(UserWorkoutEnrollmentUpdateDTO userWorkoutEnrollment)
         {
             //update a user workout enrollment
             var result = await _userWorkoutEnrollmentService.UpdateUserWorkoutEnrollmentAsync(userWorkoutEnrollment);
-            return result; 
-            
+            return result;
+
         }
 
         //complete single day workout
-        [HttpPut("api/UserWorkoutEnrollment/complete/{id}")]
+        [HttpPut("complete/{id}")]
         public async Task<ActionResult<UserWorkoutEnrollment>> CompleteDay(int id)
         {
             //complete a single day workout
             var result = await _userWorkoutEnrollmentService.CompleteDayAsync(id);
-            return result; 
-            
+            return result;
+
         }
 
         //delete a user workout enrollment
@@ -78,7 +80,7 @@ namespace WorkoutApi.Controllers
         //     //delete a user workout enrollment
         //     var result = await _userWorkoutEnrollmentService.DeleteUserWorkoutEnrollmentAsync(id);
         //     return result; 
-            
+
         // }
 
     }

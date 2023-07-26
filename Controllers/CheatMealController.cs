@@ -10,7 +10,9 @@ using Microsoft.Extensions.Logging;
 
 namespace WorkoutApi.Controllers
 {
-    public class CheatMealController:ControllerBase
+    [ApiController]
+    [Route("[controller]")]
+    public class CheatMealController : ControllerBase
     {
         private readonly CheatMealService _cheatMealService;
 

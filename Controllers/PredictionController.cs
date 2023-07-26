@@ -10,7 +10,9 @@ using Microsoft.Extensions.Logging;
 
 namespace WorkoutApi.Controllers
 {
-    public class PredictionController: ControllerBase
+    [ApiController]
+    [Route("[controller]")]
+    public class PredictionController : ControllerBase
     {
         private readonly PredictionService _predictionService;
 

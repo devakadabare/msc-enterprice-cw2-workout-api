@@ -47,9 +47,9 @@ namespace WorkoutApi.Services
             return cheatMeal;
         }
 
-        internal Task<ActionResult<List<CheatMeal>>> GetCheatMealsAsync()
+        public async Task<ActionResult<List<CheatMeal>>> GetCheatMealsAsync()
         {
-            throw new NotImplementedException();
+            return await _context.CheatMeals.ToListAsync();
         }
     }
 }

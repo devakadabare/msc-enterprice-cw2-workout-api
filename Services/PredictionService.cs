@@ -5,17 +5,22 @@ using System.Threading.Tasks;
 using WorkoutApi.Data;
 using WorkoutApi.Entities;
 using Microsoft.EntityFrameworkCore;
-
+using System.Text.Json;
+using WorkoutApi.DTO;
 
 namespace WorkoutApi.Services
 {
     public class PredictionService
     {
         private readonly StoreContext _context;
+        private readonly IHttpClientFactory _clientFactory;
+        private readonly string _userServiceEndpoint; 
 
-        public PredictionService(StoreContext context)
+        public PredictionService(StoreContext context, IHttpClientFactory clientFactory, IConfiguration configuration)
         {
             _context = context;
+            _clientFactory = clientFactory;
+            _userServiceEndpoint = configuration["UserServiceEndpoint"];
         }
 
         //create a new prediction
@@ -26,9 +31,23 @@ namespace WorkoutApi.Services
             var currentWorkoutPlan = currentUserEnrollment.WorkoutPlan;
             var currentWorkoutPlanMET = currentWorkoutPlan.TotalMET;
 
+            //getUser Data
+            string requestEndpoint = string.Format(_userServiceEndpoint, userId);
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync(requestEndpoint);
+
+            double currentWeight = 0;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseString = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"BBBBBBBBB-----responseString-> {responseString}");
+                var latestWeightData = JsonSerializer.Deserialize<UserWeightDto>(responseString);
+                currentWeight = latestWeightData.Weight;
+            }
+
             //get his latest weight 
             // var currentWeight = await _context.WeightLogs.Where(uw => uw.UserId == userId).OrderByDescending(uw => uw.Id).FirstOrDefaultAsync();
-            var currentWeight = 50;
 
             //workoutDays
             var workoutDays = currentUserEnrollment.Days;

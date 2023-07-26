@@ -11,7 +11,6 @@ namespace WorkoutApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
     public class WorkoutController: ControllerBase
     {
         private readonly WorkoutService _workoutService;

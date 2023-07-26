@@ -10,7 +10,9 @@ using Microsoft.Extensions.Logging;
 
 namespace WorkoutApi.Controllers
 {
-    public class ReportController: ControllerBase
+    [ApiController]
+    [Route("[controller]")]
+    public class ReportController : ControllerBase
     {
         //private readonly ILogger<UserController> _logger;
         private readonly ReportService _reportService;
