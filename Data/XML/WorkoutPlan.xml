@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workoutPlans>
+    <workoutPlan>
+        <Id>1</Id>
+        <Name>Beginner</Name>
+        <Difficulty>Easy</Difficulty>
+        <TotalMET>4.0</TotalMET>
+    </workoutPlan>
+    <workoutPlan>
+        <Id>2</Id>
+        <Name>Intermediate</Name>
+        <Difficulty>Medium</Difficulty>
+        <TotalMET>5.0</TotalMET>
+    </workoutPlan>
+    <workoutPlan>
+        <Id>3</Id>
+        <Name>Weight Loss</Name>
+        <Difficulty>Hard</Difficulty>
+        <TotalMET>6.0</TotalMET>
+    </workoutPlan>
+    <workoutPlan>
+        <Id>4</Id>
+        <Name>Mussel Pump</Name>
+        <Difficulty>Hard</Difficulty>
+        <TotalMET>7.0</TotalMET>
+    </workoutPlan>
+</workoutPlans>

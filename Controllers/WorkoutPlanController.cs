@@ -54,6 +54,6 @@ namespace WorkoutApi.Controllers
         public async Task<ActionResult<WorkoutPlan>> DeleteWorkoutPlanAsync(int id)
         {
             return await _workoutPlanService.DeleteWorkoutPlanAsync(id);
-        }
+        } 
     }
 }

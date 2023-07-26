@@ -8,21 +8,38 @@ using WorkoutApi.Data;
 using WorkoutApi.Entities;
 using Microsoft.EntityFrameworkCore;
 using WorkoutApi.DTO;
+using System.Xml.Linq;
 
 namespace WorkoutApi.Services
 {
     public class WorkoutPlanService
     {
         private readonly StoreContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public WorkoutPlanService(StoreContext context)
+        public WorkoutPlanService(StoreContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<List<WorkoutPlan>> GetWorkoutPlansAsync()
         {
-            return await _context.WorkoutPlans.ToListAsync();
+            string contentRootPath = _webHostEnvironment.ContentRootPath;
+            string workoutPlanXmlPath = Path.Combine(contentRootPath, "Data/XML/WorkoutPlan.xml");
+
+            XDocument doc = XDocument.Load(workoutPlanXmlPath);
+            var workoutPlans = doc.Root
+                .Elements("workoutPlan")
+                .Select(wp => new WorkoutPlan
+                {
+                    Id = (int)wp.Element("Id"),
+                    Name = (string)wp.Element("Name"),
+                    Difficulty = (string)wp.Element("Difficulty"),
+                    TotalMET = (double)wp.Element("TotalMET"),
+                })
+                .ToList();
+            return await Task.FromResult(workoutPlans);
         }
         public async Task<List<WorkoutPlan>> GetWorkoutPlansWithWorkoutsAsync()
         {
